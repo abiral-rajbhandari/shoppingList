@@ -1,6 +1,58 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
 @import "tailwindcss";
 
 html {
-    font-family: "Roboto Slab", serif;
+  font-family: "Roboto Slab", serif;
+}
+
+@theme {
+  --color-background-page: #fbfbfb;
+  --color-background-form: #fff;
+  --color-border: #ccc;
+  --color-text: #017bff;
+  --color-background: #017bff;
+}
+
+@layer base {
+  h1 {
+    @apply text-3xl font-bold;
+  }
+
+  p {
+    @apply text-base font-normal;
+  }
+}
+
+/* Auth Form Component */
+@layer components {
+  .form-overlay {
+    @apply flex justify-center items-center min-h-screen bg-background-page;
+  }
+
+  .form-container {
+    @apply w-full max-w-md p-8 space-y-5 border border-gray-300 rounded-2xl bg-background-form shadow-xl;
+  }
+
+  .form-header {
+    @apply space-y-2 text-center;
+  }
+  .form-header p {
+    @apply text-gray-600;
+  }
+
+  .input-group {
+    @apply space-y-2;
+  }
+
+  .form-label {
+    @apply text-gray-700 text-sm block;
+  }
+
+  .form-input {
+    @apply w-full p-3 border border-gray-300 rounded-lg outline-none focus:border-blue-500;
+  }
+  
+  .form-input::placeholder {
+    @apply text-gray-400;
+  }
 }
