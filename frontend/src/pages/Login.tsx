@@ -113,13 +113,13 @@ function Login() {
                 </button>
               </div>
               <p className="text-right text-sm text-blue-600 cursor-pointer">
-                Forgot password?
+                <Link to="/forgot-password" >Forgot password?</Link>
               </p>
             </div>
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full p-3 bg-background hover:bg-blue-600 text-white rounded-lg cursor-pointer flex justify-center items-center"
+              className="w-full p-3 bg-btn-primary hover:bg-blue-600 text-white rounded-lg cursor-pointer flex justify-center items-center"
             >
               {isLoading ? (
                 <LoaderPinwheel className="animate-spin" />
