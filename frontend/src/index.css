@@ -10,7 +10,8 @@ html {
   --color-background-form: #fff;
   --color-border: #ccc;
   --color-text: #017bff;
-  --color-background: #017bff;
+  --color-btn-primary: #017bff;
+  --color-btn-secondary: #42b628;
 }
 
 @layer base {
