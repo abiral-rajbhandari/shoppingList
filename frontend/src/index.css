@@ -2,7 +2,8 @@
 @import "tailwindcss";
 
 html {
-  font-family: "Roboto Slab", serif;
+  /* font-family: "Roboto Slab", serif; */
+  font-family: sans-serif;
 }
 
 @theme {
@@ -57,3 +58,8 @@ html {
     @apply text-gray-400;
   }
 }
+/* @layer components {
+  .container {
+    @apply px-[10%] m-auto;
+  }
+} */
