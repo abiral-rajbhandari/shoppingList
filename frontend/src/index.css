@@ -2,18 +2,13 @@
 @import "tailwindcss";
 
 html {
-  /* font-family: "Roboto Slab", serif; */
   font-family: sans-serif;
   background-color: var(--color-background-page);
 }
 
 @theme {
-  --color-background-page: #fbfbfb;
-  --color-background-form: #fff;
-  --color-border: #ccc;
-  --color-text: #017bff;
-  --color-btn-primary: #017bff;
-  --color-btn-secondary: #42b628;
+  --color-background-page: rgb(243, 243, 247);
+  --color-register-btn: #42b628;
 }
 
 @layer base {
@@ -33,7 +28,7 @@ html {
   }
 
   .form-container {
-    @apply w-full max-w-md p-8 space-y-5 border border-gray-300 rounded-2xl bg-background-form shadow-xl;
+    @apply w-full max-w-md p-8 space-y-5 border border-gray-300 rounded-2xl bg-white shadow-xl;
   }
 
   .form-header {
@@ -59,8 +54,3 @@ html {
     @apply text-gray-400;
   }
 }
-/* @layer components {
-  .container {
-    @apply px-[10%] m-auto;
-  }
-} */

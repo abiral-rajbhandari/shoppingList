@@ -6,7 +6,6 @@ function Home() {
     <>
       <Navbar />
      <div className="container mx-auto">
-     {/* <InputForm /> */}
       <ListItem />
      </div>
     </>
