@@ -119,7 +119,7 @@ function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full p-3 bg-btn-primary hover:bg-blue-600 text-white rounded-lg cursor-pointer flex justify-center items-center"
+              className="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer flex justify-center items-center"
             >
               {isLoading ? (
                 <LoaderPinwheel className="animate-spin" />

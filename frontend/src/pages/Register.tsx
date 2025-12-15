@@ -128,7 +128,7 @@ function Register() {
             <button
               type="submit"
               disabled={isLoading}
-              className="bg-btn-secondary hover:bg-green-600 w-full p-3 rounded-lg text-white cursor-pointer flex items-center justify-center"
+              className="bg-register-btn hover:bg-green-600 w-full p-3 rounded-lg text-white cursor-pointer flex items-center justify-center"
             >
               {isLoading ? (
                 <LoaderPinwheel className="animate-spin" />
