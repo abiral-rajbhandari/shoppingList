@@ -7,22 +7,60 @@ export interface ListItemsType {
   itemName: string;
   quantity: string;
   price: number;
+  completed: boolean;
 }
 
 function ListItem() {
   const [modal, setModal] = useState(false);
+  const [inputValue, setInputValue] = useState<ListItemsType>({ itemName: "", quantity: "", price: 0, completed: false, });
   const [listItems, setListItems] = useState<ListItemsType[]>([]);
+  const [editIndex, setEditIndex] = useState<number | null>(null);
 
-  const addListItems = (newItems: ListItemsType) => {
-    setListItems((prevItems) => {
-      return [...prevItems, newItems];
-    });
-  };
+  // Function: handleSubmit
+  const handleSubmit = (newItems: ListItemsType) => {
+    if (editIndex !== null) {
+         setListItems((prevItems) => {
+          return prevItems.map((item, index) => 
+            index == editIndex ? { ...inputValue, itemName: inputValue.itemName.trim(), quantity: inputValue.quantity.trim() } : item
+          )
+        });
+        setEditIndex(null);
+    }else {
+      setListItems((prevItems) => {
+        return [...prevItems, newItems];
+      });
+    };
+    setInputValue({ itemName: "", quantity: "", price: 0, completed: false, });
+    }
+
+  // Function: handleComplete
+  const handleComplete = (indexToComplete: number) => {
+      setListItems((prevItems) => {
+       return prevItems.map((item, index) =>
+          index == indexToComplete ? { ...item, completed: !item.completed } : item
+        )
+      })
+  }
+
+  // Function: handleEdit
+  const handleEdit = (indexToEdit: number) => {
+      setInputValue(listItems[indexToEdit]);
+      setEditIndex(indexToEdit);
+       setModal(true);
+  }
+
+  const handleDelete = (indexToDelete: number) => {
+      setListItems((prevItems) => {
+        return prevItems.filter((_, index) => {
+          return index !== indexToDelete;
+        })
+      })
+  }
 
   return (
     <>
       {/* Form Modal */}
-      {modal && <InputForm setModal={setModal} onSubmit={addListItems} />}
+      {modal && <InputForm setModal={setModal} onSubmit={handleSubmit} inputValue={inputValue} setInputValue={setInputValue} />}
       <div className="space-y-5 ">
         {/* HEADER */}
         <div className="flex justify-between items-center mt-6 p-6 rounded-lg shadow-sm bg-white border-gray-300">
@@ -60,8 +98,8 @@ function ListItem() {
               </div>
             ) : (
               <div className="space-y-5">
-                {listItems.map((items, index: number) => (
-                  <ListCard key={index} items={items} />
+                {listItems.map((item, index: number) => (
+                  <ListCard key={index} item={item} index={index} handleComplete={handleComplete} handleEdit={handleEdit} handleDelete={handleDelete} />
                 ))}
               </div>
             )}
