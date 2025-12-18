@@ -1,15 +1,18 @@
 import { Plus, CircleX } from "lucide-react";
 import type { ListItemsType } from "./ListItem";
 interface PropsType {
-  setModal: (value: boolean) => void; 
-  onSubmit: (item: ListItemsType) => void; 
+  setModal: (value: boolean) => void;
+  onSubmit: (item: ListItemsType) => void;
   inputValue: ListItemsType;
-  setInputValue: (value: ListItemsType | ((prev: ListItemsType) => ListItemsType )) => void;
+  setInputValue: (
+    value: ListItemsType | ((prev: ListItemsType) => ListItemsType)
+  ) => void;
+  editIndex: number | null;
+  setEditIndex: (value: null | number) => void;
 }
 
 function InputForm(props: PropsType) {
-
-  // Function: handleChange (put input field data in a state variable) 
+  // Function: handleChange (put input field data in a state variable)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -22,7 +25,7 @@ function InputForm(props: PropsType) {
     });
   };
 
-  // Function: HandleSubmit (Store only values of the key value pair data from state variable to an array using another state variable) 
+  // Function: HandleSubmit (Store only values of the key value pair data from state variable to an array using another state variable)
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -49,7 +52,10 @@ function InputForm(props: PropsType) {
   return (
     // Modal Overlay
     <div
-      onClick={() => props.setModal(false)}
+      onClick={() => {
+        props.setModal(false);
+        props.setEditIndex(null);
+      }}
       className="fixed inset-0 z-50 bg-black/40 h-screen w-screen flex justify-center items-center"
     >
       {/* Modal Container */}
@@ -63,7 +69,13 @@ function InputForm(props: PropsType) {
           <button
             onClick={() => {
               props.setModal(false);
-              props.setInputValue({ itemName: "", quantity: "", price: 0, completed: false, });
+              props.setInputValue({
+                itemName: "",
+                quantity: "",
+                price: 0,
+                completed: false,
+              });
+              props.setEditIndex(null);
             }}
             className="absolute top-0 right-0 bottom-0 text-gray-500 hover:text-gray-700 cursor-pointer"
           >
@@ -103,7 +115,7 @@ function InputForm(props: PropsType) {
             className="w-full bg-blue-600 transition-colors hover:bg-blue-700 text-white p-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer"
           >
             {" "}
-            <Plus /> Create New List
+            <Plus /> {props.editIndex !== null ? "Update" : "Create New List"}
           </button>
         </form>
       </div>
