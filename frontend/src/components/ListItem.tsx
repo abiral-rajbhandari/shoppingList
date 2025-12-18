@@ -2,10 +2,11 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import InputForm from "./InputForm";
 import ListCard from "./ListCard";
+import { toast } from "react-hot-toast";
 
 export interface ListItemsType {
   itemName: string;
-  quantity: string;
+  quantity: number;
   price: number;
   completed: boolean;
 }
@@ -14,7 +15,7 @@ function ListItem() {
   const [modal, setModal] = useState(false);
   const [inputValue, setInputValue] = useState<ListItemsType>({
     itemName: "",
-    quantity: "",
+    quantity: 0,
     price: 0,
     completed: false,
   });
@@ -57,14 +58,16 @@ function ListItem() {
           return index == editIndex ? inputValue : item;
         });
       });
+      toast.success("List updated.")
       setEditIndex(null);
     } else {
       setListItems((prevItems) => {
         return [...prevItems, items];
       });
+      toast.success("New list added.")
     }
     // Clear Input Fields
-    setInputValue({ itemName: "", quantity: "", price: 0, completed: false });
+    setInputValue({ itemName: "", quantity: 0, price: 0, completed: false });
   };
 
   // Function: handleComplete
@@ -92,6 +95,7 @@ function ListItem() {
         return index !== indexToDelete;
       });
     });
+    toast.success("List deleted.")
   };
 
   return (

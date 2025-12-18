@@ -1,76 +1,101 @@
-// Todo: Fix UI and Implement Functionality!
-import {
-  CircleUserRound,
-  PanelRightClose,
-  Mail,
-  LockKeyhole,
-  LogOut,
-} from "lucide-react";
-
+import { Home, Lock, LogOut, User, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, Toaster } from "react-hot-toast";
 interface PropsType {
-  setMenuStatus: React.Dispatch<React.SetStateAction<boolean>>;
   menuStatus: boolean;
+  setMenuStatus: (value: boolean) => void;
 }
 
-function UserProfile({ setMenuStatus, menuStatus }: PropsType) {
+function UserProfile({ menuStatus, setMenuStatus }: PropsType) {
+  const navigate = useNavigate();
+
+  const handleSignout = () => {
+    localStorage.removeItem("token");
+    toast.success("Signed out successfully.")
+    navigate("/signin");
+  };
+
   return (
     <>
-
-      {/* Menu Container: Slide-in Menu */}
-      {/* This component will stay in right: -100% will only slide in right: 0% if menuStatus is true */}
+      <Toaster
+        position="top-right"
+        toastOptions={{
+        duration: 3000,
+        className: "bg-[#333] text-[#fff]",
+        }}
+      />
+      {/* Menu Overlay */}
       <div
-        className={`fixed right-0 top-0 h-full w-80 bg-white shadow-2xl z-50 
-                    transform transition-transform duration-300 ease-in-out ${
-                      menuStatus ? "translate-x-0" : "translate-x-full"
-                    }`}
+        onClick={() => setMenuStatus(false)}
+        className={`bg-black/40 fixed inset-0 z-30 ${
+          menuStatus
+            ? "opacity-100 pointer-events-auto "
+            : "opacity-0 pointer-events-none"
+        }`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-300 ">
-          <h2 id="profile-heading" className="text-xl font-semibold">
-            User Profile
-          </h2>
-          <button
-            onClick={() => setMenuStatus(false)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-            aria-label="Close menu"
-          >
-            <PanelRightClose className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="p-6">
-          {/* User Info */}
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
-              <CircleUserRound className="w-10 h-10 text-gray-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 truncate">
-                Abiral Man Rajbhandari
-              </h3>
-              <p className="text-sm text-gray-500 truncate">
-                abiralrajbhandari75@gmail.com
-              </p>
+        {/* Menu Container */}
+        <div
+          onClick={(event) => event.stopPropagation()}
+          className={`fixed top-0 right-0 w-84 bg-white z-40 h-full transform transition-transform duration-300 ease-in-out ${
+            menuStatus ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          {/* Menu Header */}
+          <div className="flex justify-start items-center h-20  gap-4 px-6 bg-blue-600 text-white">
+            <X
+              onClick={() => setMenuStatus(false)}
+              className="hover:bg-blue-700 cursor-pointer "
+            />
+            <h2 className="text-2xl ">Settings</h2>
+          </div>
+          {/* Profile Image & Name, Email */}
+          <div className="p-6 ">
+            <div className="flex gap-4 justify-center items-center border-b border-gray-300 pb-6">
+              <div className="bg-blue-600 w-14 h-14 flex justify-center items-center rounded-full">
+                <User className="w-10 h-10 text-white" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-gray-900 text-lg truncate">
+                  Abiral Man Rajbhandari
+                </h3>
+                <p className="text-gray-500 text-sm truncate">
+                  abiralrajbhandari75@gmail.com
+                </p>
+              </div>
             </div>
           </div>
-
-          {/* Menu Items */}
+          {/* Menu Body */}
           <nav className="space-y-2">
-            <button className="w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg hover:bg-gray-100 transition-colors">
-              <Mail className="w-5 h-5 text-gray-600" />
-              <span className="text-gray-700">Edit Profile</span>
-            </button>
-
-            <button className="w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg hover:bg-gray-100 transition-colors">
-              <LockKeyhole className="w-5 h-5 text-gray-600" />
-              <span className="text-gray-700">Reset Password</span>
-            </button>
-
-            <button className="w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg hover:bg-red-50 transition-colors text-red-600 mt-4">
-              <LogOut className="w-5 h-5" />
-              <span className="font-medium">Sign out</span>
-            </button>
+            <div
+              onClick={() => {
+                setMenuStatus(false);
+                window.location.reload();
+              }}
+              className="flex items-center gap-3 w-full px-6 py-3 hover:bg-gray-100 cursor-pointer"
+            >
+              <span className="bg-gray-200 p-2 rounded-full">
+                <Home className="text-gray-500 w-5 h-5" />
+              </span>
+              Home
+            </div>
+            <Link
+              to="reset-password"
+              className="flex items-center gap-3 w-full px-6 py-3 hover:bg-gray-100 cursor-pointer"
+            >
+              <span className="bg-gray-200 p-2 rounded-full">
+                <Lock className="text-gray-500 w-5 h-5" />
+              </span>
+              Reset Password
+            </Link>
+            <div
+              onClick={handleSignout}
+              className="flex items-center gap-3 w-full px-6 py-3 hover:bg-gray-100 cursor-pointer"
+            >
+              <span className="bg-gray-200 p-2 rounded-full">
+                <LogOut className="h-5 w-5 text-gray-500" />
+              </span>
+              Sign out
+            </div>
           </nav>
         </div>
       </div>
