@@ -12,7 +12,7 @@ function ForgotPassword() {
     event.preventDefault();
     try {
       setIsLoading(true);
-      const response = await axios.post("http://localhost:3000/api/auth/forgot-password", formData); //todo: Put URL
+      const response = await axios.post("http://localhost:3000/api/auth/forgot-password", formData);
       const successMessage = response.data.message;
       toast.success(successMessage);
       setFormData({ email: "" });
@@ -67,7 +67,7 @@ function ForgotPassword() {
               />
             </div>
             <button
-              className="w-full p-3 bg-btn-primary text-white rounded-lg cursor-pointer flex justify-center items-center"
+              className="w-full p-3 bg-blue-600 hover:bg-blue-700 transition-colors text-white rounded-lg cursor-pointer flex justify-center items-center"
               type="submit"
               disabled={isLoading}
             >

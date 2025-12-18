@@ -1,4 +1,4 @@
-import { UserRoundCog } from "lucide-react";
+import { Settings } from "lucide-react";
 import UserProfile from "./UserProfile";
 import { useState } from "react";
 
@@ -13,11 +13,11 @@ function Navbar() {
           Shopping List
         </a>
         <button className="cursor-pointer" >
-          <UserRoundCog onClick={() => setMenuStatus(!menuStatus)} />
+          <Settings onClick={() => setMenuStatus(!menuStatus)} />
         </button>
       </div>
     </nav>
-    {/* Remove the conditional - always render */}
+    {/* Not conditional -> always render, just hide and slide back */}
     <UserProfile menuStatus={menuStatus} setMenuStatus={setMenuStatus} /> 
     </>
   );
