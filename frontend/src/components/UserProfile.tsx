@@ -1,6 +1,6 @@
 import { Home, Lock, LogOut, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 interface PropsType {
   menuStatus: boolean;
   setMenuStatus: (value: boolean) => void;
@@ -17,13 +17,6 @@ function UserProfile({ menuStatus, setMenuStatus }: PropsType) {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-        duration: 3000,
-        className: "bg-[#333] text-[#fff]",
-        }}
-      />
       {/* Menu Overlay */}
       <div
         onClick={() => setMenuStatus(false)}
@@ -79,7 +72,7 @@ function UserProfile({ menuStatus, setMenuStatus }: PropsType) {
               Home
             </div>
             <Link
-              to="reset-password"
+              to="/reset-password"
               className="flex items-center gap-3 w-full px-6 py-3 hover:bg-gray-100 cursor-pointer"
             >
               <span className="bg-gray-200 p-2 rounded-full">

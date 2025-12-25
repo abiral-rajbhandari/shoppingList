@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
+const itemRoutes = require('./routes/itemRoutes'); 
 
 //* Call express() and load it in app variable
 const app = express();
@@ -18,6 +19,7 @@ app.use(cors({
 
 //* Base Route:
 app.use("/api/auth", authRoutes);
+app.use("/api/items", itemRoutes);
 
 //* Database Connection:
 const MONGODB_URL = process.env.MONGODB_URL;

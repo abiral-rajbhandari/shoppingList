@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import { LoaderPinwheel } from "lucide-react";
 
@@ -40,13 +40,6 @@ function ForgotPassword() {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-          className: "bg-[#333] text-[#fff] ",
-        }}
-      />
       <div className="form-overlay">
         <div className="form-container">
           <div className="form-header">

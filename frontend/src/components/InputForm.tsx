@@ -20,7 +20,7 @@ function InputForm(props: PropsType) {
     props.setInputValue((prevData) => {
       return {
         ...prevData,
-        [name]: name === "price" && "quantity" ? Number(value) : value,
+        [name]: name === "price" || name === "quantity" ? Number(value) : value,
       };
     });
   };
