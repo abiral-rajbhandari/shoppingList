@@ -138,7 +138,7 @@ const verifyEmail = async (request, response) => {
   }
 };
 
-//************************ forgotPassword MiddlewareFunction: ********************//
+//************************ forgotPassword Middleware Function: ********************//
 const forgotPassword = async (request, response) => {
   try {
     // extract email from req.body: sent from forgot-password page from client
@@ -216,10 +216,35 @@ const resetPassword = async (request, response) => {
   }
 };
 
+//********************** getUserInfo Middleware Function: *************************//
+const getUserInfo = async (request, response) => {
+  try {
+    const userId = request.userId;
+    // userId == User collection's _id
+    const user = await User.findById(userId).select(
+      "-password -verificationToken -resetPasswordToken -resetPasswordExpires"
+    );
+    // .select("-password") means: Get all fields EXCEPT password
+    // We don't want to send password back to frontend!
+    if (!user) {
+      return response.status(404).json({ message: "User not found." });
+    }
+    response.status(200).json({
+      name: user.name,
+      email: user.email,
+      isVerified: user.isVerified,
+    });
+  } catch (error) {
+    console.error("Get User Info Error:", error);
+    response.status(500).json({ message: "Failed to get user info." });
+  }
+};
+
 module.exports = {
   loginUser,
   registerUser,
   verifyEmail,
   forgotPassword,
   resetPassword,
+  getUserInfo,
 };
