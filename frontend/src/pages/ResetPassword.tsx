@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, LoaderPinwheel } from "lucide-react";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function ResetPassword() {
@@ -15,6 +15,13 @@ function ResetPassword() {
   //
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    
+    if (!token) {
+      toast.error("Invalid token.");
+      navigate("/forgot-password");
+      return;
+    }
+
     try {
       setIsLoading(true);
       const response = await axios.post("http://localhost:3000/api/auth/reset-password", {newPassword: formData.newPassword, token });
@@ -48,13 +55,6 @@ function ResetPassword() {
 
   return (
     <>
-      <Toaster
-        position="top-right"
-        toastOptions={{
-          duration: 3000,
-          className: "bg-[#333] text-[#fff]",
-        }}
-      />
       <div className="form-overlay">
         <div className="form-container">
           <div className="form-header">

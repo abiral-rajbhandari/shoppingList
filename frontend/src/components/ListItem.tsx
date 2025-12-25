@@ -53,7 +53,7 @@ function ListItem() {
     if (editIndex !== null) {
       setListItems((prevItems) => {
         return prevItems.map((item, index) => {
-          // If this index is being edited, replace the item with the updated input value; otherwise keep the existing item
+          // If this index is being edited, replace the item with the updated input value user type at that time; otherwise return the existing item as it is
           // Entire inputs of item will be updated
           return index == editIndex ? inputValue : item;
         });
@@ -92,6 +92,7 @@ function ListItem() {
   const handleDelete = (indexToDelete: number) => {
     setListItems((prevItems) => {
       return prevItems.filter((_, index) => {
+        // return item only if its index is not equal to index to delete.
         return index !== indexToDelete;
       });
     });
@@ -163,13 +164,12 @@ function ListItem() {
               </div>
             ) : (
               <div className="space-y-5">
-                {filteredItems.map((item) => {
-                  const originalIndex = listItems.indexOf(item);
+                {filteredItems.map((item, index) => {
                   return (
                     <ListCard
-                      key={originalIndex}
+                      key={index}
                       item={item}
-                      index={originalIndex}
+                      index={index}
                       handleComplete={handleComplete}
                       handleEdit={handleEdit}
                       handleDelete={handleDelete}

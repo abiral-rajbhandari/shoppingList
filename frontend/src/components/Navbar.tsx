@@ -1,6 +1,7 @@
 import { Settings } from "lucide-react";
 import UserProfile from "./UserProfile";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [menuStatus, setMenuStatus] = useState(false);
@@ -9,9 +10,9 @@ function Navbar() {
     <nav className="sticky top-0 z-20 bg-blue-600 text-white">
       {/* container: set max-width then mx-auto to center div horizontally. */}
       <div className="container mx-auto px-6 h-20 flex justify-between items-center">
-        <a href="/" className="text-2xl font-bold ">
+        <Link to="/" className="text-2xl font-bold ">
           Shopping List
-        </a>
+        </Link>
         <button className="cursor-pointer" >
           <Settings onClick={() => setMenuStatus(!menuStatus)} />
         </button>

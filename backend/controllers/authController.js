@@ -140,40 +140,44 @@ const verifyEmail = async (request, response) => {
 
 //************************ forgotPassword MiddlewareFunction: ********************//
 const forgotPassword = async (request, response) => {
-  // extract email from req.body: sent from forgot-password page from client
-  const email = request.body.email;
+  try {
+    // extract email from req.body: sent from forgot-password page from client
+    const email = request.body.email;
 
-  // we can access database fields using user
-  // check if the user exist
-  const user = await User.findOne({ email: email });
-  if (!user) {
-    response.status(404).json({ message: "User not found." });
-    return;
-  } else {
-    // generate reset token and save on database.
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
-    await user.save();
+    // we can access database fields using user
+    // check if the user exist
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      response.status(404).json({ message: "User not found." });
+      return;
+    } else {
+      // generate reset token and save on database.
+      const resetToken = crypto.randomBytes(32).toString("hex");
+      user.resetPasswordToken = resetToken;
+      user.resetPasswordExpires = Date.now() + 15 * 60 * 1000; // 15 minutes
+      await user.save();
 
-    // create a password-reset link which is sent to user via sendEmail
-    // it routes to reset-password page of frontend
-    // it contains: token which is extracted using useSearchParams() hook 
-    // token and newPassword is posted to backend /reset-password route
-    // where resetPassword middleware function is executed
-    // 
-    const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`;
-    await sendEmail(
-      email,
-      "Reset your password",
-      `<h2>Password Reset</h2>
+      // create a password-reset link which is sent to user via sendEmail
+      // it routes to reset-password page of frontend
+      // it contains: token which is extracted using useSearchParams() hook
+      // token and newPassword is posted to backend /reset-password route
+      // where resetPassword middleware function is executed
+      //
+      const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`;
+      await sendEmail(
+        email,
+        "Reset your password",
+        `<h2>Password Reset</h2>
       <p>Click the link below to reset your password:</p>
       <a href="${resetLink}">${resetLink}</a>
       <p>This link expires in 15 minutes.</p>`
-    );
-    response.json({
-      message: "Password reset link has been sent to your email.",
-    });
+      );
+      response.json({
+        message: "Password reset link has been sent to your email.",
+      });
+    }
+  } catch (error) {
+    response.status(500).json({ message: "Something went wrong." });
   }
 };
 
@@ -189,6 +193,10 @@ const resetPassword = async (request, response) => {
   if (!user) {
     response.status(400).json({ message: "Invalid token." });
     return;
+  } else if (newPassword < 6) {
+    response
+      .status(400)
+      .jason({ message: "Password must be at least 6 characters long." });
   } else {
     // if token is matched
     // generate salt
