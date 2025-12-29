@@ -7,8 +7,8 @@ interface PropsType {
   setInputValue: (
     value: ListItemsType | ((prev: ListItemsType) => ListItemsType)
   ) => void;
-  editIndex: number | null;
-  setEditIndex: (value: null | number) => void;
+  editId: string | null;
+  setEditId: (value: string | null) => void;
 }
 
 function InputForm(props: PropsType) {
@@ -29,24 +29,9 @@ function InputForm(props: PropsType) {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    const formData = {
-      itemName: props.inputValue.itemName.trim(),
-      quantity: props.inputValue.quantity,
-      price: props.inputValue.price,
-      completed: props.inputValue.completed,
-    };
     // call the function that adds the items &
     // Send data back to parent as an argument
-    props.onSubmit(formData);
-    // Reset the form fields.
-    props.setInputValue({
-      itemName: "",
-      quantity: 0,
-      price: 0,
-      completed: false,
-    });
-    // Close the modal after adding data
-    props.setModal(false);
+    props.onSubmit(props.inputValue);
   };
 
   return (
@@ -55,7 +40,13 @@ function InputForm(props: PropsType) {
       <div
         onClick={() => {
           props.setModal(false);
-          props.setEditIndex(null);
+          props.setEditId(null);
+          props.setInputValue({
+                  itemName: "",
+                  quantity: 0,
+                  price: 0,
+                  completed: false,
+                });
         }}
         className="fixed inset-0 z-50 bg-black/40 h-screen w-screen flex justify-center items-center"
       >
@@ -76,7 +67,7 @@ function InputForm(props: PropsType) {
                   price: 0,
                   completed: false,
                 });
-                props.setEditIndex(null);
+                props.setEditId(null);
               }}
               className="absolute top-0 right-0 bottom-0 text-gray-500 hover:text-gray-700 cursor-pointer"
             >
@@ -112,8 +103,8 @@ function InputForm(props: PropsType) {
               <input
                 className="form-input"
                 name="price"
-                type="number"min={0}
-
+                type="number"
+                min={0}
                 value={
                   props.inputValue.price == 0 ? "" : props.inputValue.price
                 }
@@ -126,7 +117,7 @@ function InputForm(props: PropsType) {
               className="w-full bg-blue-600 transition-colors hover:bg-blue-700 text-white p-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer"
             >
               {" "}
-              <Plus /> {props.editIndex !== null ? "Update" : "Create New List"}
+              <Plus /> {props.editId ? "Update" : "Create New List"}
             </button>
           </form>
         </div>

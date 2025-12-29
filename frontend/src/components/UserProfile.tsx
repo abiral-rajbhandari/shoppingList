@@ -1,17 +1,53 @@
 import { Home, Lock, LogOut, User, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useEffect, useState } from "react";
+import axios from "axios";
 interface PropsType {
   menuStatus: boolean;
   setMenuStatus: (value: boolean) => void;
 }
 
 function UserProfile({ menuStatus, setMenuStatus }: PropsType) {
+  const [userInfo, setUserInfo] = useState({ name: "", email: "" });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          "http://localhost:3000/api/auth/user-info",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUserInfo(response.data);
+      } catch {
+        toast.error("Failed to get userInfo.");
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
+  useEffect(() => {
+    if (menuStatus) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuStatus]);
 
   const handleSignout = () => {
     localStorage.removeItem("token");
-    toast.success("Signed out successfully.")
+    toast.success("Signed out successfully.");
     navigate("/signin");
   };
 
@@ -49,28 +85,25 @@ function UserProfile({ menuStatus, setMenuStatus }: PropsType) {
               </div>
               <div className="flex-1">
                 <h3 className="text-gray-900 text-lg truncate">
-                  Abiral Man Rajbhandari
+                  {userInfo.name}
                 </h3>
                 <p className="text-gray-500 text-sm truncate">
-                  abiralrajbhandari75@gmail.com
+                  {userInfo.email}
                 </p>
               </div>
             </div>
           </div>
           {/* Menu Body */}
           <nav className="space-y-2">
-            <div
-              onClick={() => {
-                setMenuStatus(false);
-                window.location.reload();
-              }}
+            <a
+              href="/"
               className="flex items-center gap-3 w-full px-6 py-3 hover:bg-gray-100 cursor-pointer"
             >
               <span className="bg-gray-200 p-2 rounded-full">
                 <Home className="text-gray-500 w-5 h-5" />
               </span>
               Home
-            </div>
+            </a>
             <Link
               to="/reset-password"
               className="flex items-center gap-3 w-full px-6 py-3 hover:bg-gray-100 cursor-pointer"
