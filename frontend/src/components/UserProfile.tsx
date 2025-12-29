@@ -105,7 +105,7 @@ function UserProfile({ menuStatus, setMenuStatus }: PropsType) {
               Home
             </a>
             <Link
-              to="/reset-password"
+              to="/forgot-password"
               className="flex items-center gap-3 w-full px-6 py-3 hover:bg-gray-100 cursor-pointer"
             >
               <span className="bg-gray-200 p-2 rounded-full">
